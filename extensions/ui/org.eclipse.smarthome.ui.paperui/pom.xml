@@ -16,38 +16,53 @@
 		<bundle.namespace>org.eclipse.smarthome.ui.paperui</bundle.namespace>
 	</properties>
 
-	<groupId>org.eclipse.smarthome.ui</groupId>
 	<artifactId>org.eclipse.smarthome.ui.paperui</artifactId>
 
 	<name>Eclipse SmartHome Paper UI</name>
 	<packaging>eclipse-plugin</packaging>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>0.0.23</version>
 
-	<profiles>
-		<profile>
-			<id>web</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>exec-bower-install</id>
-								<phase>generate-sources</phase>
-								<configuration>
-									<executable>bower</executable>
-									<arguments>
-										<argument>install</argument>
-									</arguments>
-								</configuration>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+				<executions>
+					<execution>
+						<id>Install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<!-- optional: default phase is "generate-resources" -->
+						<phase>generate-resources</phase>
+						<configuration>
+							<nodeVersion>v0.12.3</nodeVersion>
+							<npmVersion>2.10.0</npmVersion>
+							<!-- optional: where to download node and npm from. Defaults to http://nodejs.org/dist/ -->
+							<!--<downloadRoot>https://nodejs.org:80/dist/</downloadRoot>-->
+						</configuration>
+					</execution>
+
+					<!-- Default execution argument is 'install' -->
+
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+					</execution>
+
+					<execution>
+						<id>bower install</id>
+						<goals>
+							<goal>bower</goal>
+						</goals>
+					</execution>
+					
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

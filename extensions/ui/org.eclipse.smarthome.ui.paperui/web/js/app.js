@@ -56,7 +56,5 @@ angular.module('SmartHomeManagerApp', [
     $rootScope.navigateToRoot = function() {
         $location.path('');
     }
-    $rootScope.navigateFromRoot = function(path) {
-        $location.path(path);
-    }
+    $rootScope.$location = $location;
 }]);

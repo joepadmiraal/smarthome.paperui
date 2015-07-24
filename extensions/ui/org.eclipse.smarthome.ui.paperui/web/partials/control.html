@@ -10,13 +10,13 @@
 		<p class="text-center" ng-show="tabs.length == 0">
 			No groups defined yet.
 			<button class="md-button"
-				ng-click="navigateFromRoot('configuration/groups')">Add
+				ng-click="$location.path('configuration/groups')">Add
 				Group</button>
 		</p>
 		<p class="text-center"
 			ng-show="getItem(tabs[selectedTabIndex].name).members.length == 0">
 			Group is empty.
-			<button class="md-button" ng-click="navigateFromRoot('setup/wizard')">Add
+			<button class="md-button" ng-click="$location.path('setup/wizard')">Add
 				Thing</button>
 		</p>
 		<div ng-controller="ControlController" class="items row"

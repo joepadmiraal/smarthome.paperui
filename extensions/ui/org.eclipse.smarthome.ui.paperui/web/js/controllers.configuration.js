@@ -107,7 +107,8 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
 		thingRepository.getAll(true);	
 	}
 	$scope.remove = function(thing, event) {
-        $mdDialog.show({
+        event.stopImmediatePropagation();
+	    $mdDialog.show({
             controller : 'RemoveThingDialogController',
             templateUrl : 'partials/dialog.removething.html',
             targetEvent : event,
@@ -116,7 +117,6 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
         }).then(function() {
             $scope.refresh();
         });
-        event.stopImmediatePropagation();
     }
 	$scope.refresh();
 }).controller('ViewThingController', function($scope, $mdDialog, toastService, thingTypeRepository, 
@@ -137,7 +137,8 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
 		});
 	};
 	$scope.remove = function(thing, event) {
-        $mdDialog.show({
+	    event.stopImmediatePropagation();
+	    $mdDialog.show({
             controller : 'RemoveThingDialogController',
             templateUrl : 'partials/dialog.removething.html',
             targetEvent : event,
@@ -146,7 +147,6 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
         }).then(function() {
             $scope.navigateTo('things');
         });
-        event.stopImmediatePropagation();
     }
 	
 	$scope.enableChannel = function(thingUID, channelID) {
@@ -205,10 +205,12 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
 }).controller('RemoveThingDialogController', function($scope, $mdDialog, toastService, 
         thingSetupService, homeGroupRepository, thing) {
     $scope.thing = thing;
+    $scope.isRemoving = thing.statusInfo.status === 'REMOVING';
     $scope.close = function() {
         $mdDialog.cancel();
     }
-    $scope.remove  = function(thingUID, forceRemove) {    
+    $scope.remove  = function(thingUID) {    
+        var forceRemove = $scope.isRemoving ? true : false;
         thingSetupService.remove({thingUID: thing.UID, force: forceRemove}, function() {
             homeGroupRepository.setDirty(true);
             if(forceRemove) {

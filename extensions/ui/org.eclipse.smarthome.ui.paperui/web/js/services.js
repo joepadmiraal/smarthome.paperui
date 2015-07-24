@@ -54,7 +54,7 @@ angular.module('SmartHomeManagerApp.services', ['SmartHomeManagerApp.constants']
 	        }
 	        toast.position('bottom right');
 	        $mdToast.show(toast).then(function() {
-				$rootScope.navigateFromRoot(actionUrl);
+				$rootScope.$location.path(actionUrl);
 			});
 	    }
 	    this.showDefaultToast = function(text, actionText, actionUrl) {
@@ -71,52 +71,36 @@ angular.module('SmartHomeManagerApp.services', ['SmartHomeManagerApp.constants']
     return {
         getRenderingModel: function(configParameters) {
             var parameters = [];
+            if(!configParameters) {
+                return parameters;
+            }
             for (var i = 0; i < configParameters.length; i++) {
                 var parameter = configParameters[i];
+                var parameterModel = {
+                    name : parameter.name,
+                    type : parameter.type,
+                    label : parameter.label,
+                    description : parameter.description,
+                    defaultValue : parameter.defaultValue
+                };
                 if(parameter.type === 'TEXT') {
                     if(parameter.options && parameter.options.length > 0) {
-                        parameters.push({
-                            name: parameter.name,
-                            type: parameter.type,
-                            label: parameter.label,
-                            description: parameter.description,
-                            element: 'select',
-                            defaultValue: parameter.defaultValue,
-                            options: parameter.options
-                        });
+                        parameterModel.element = 'select';
+                        parameterModel.options = parameter.options;
                     } else {
-                        parameters.push({
-                            name: parameter.name,
-                            type: parameter.type,
-                            label: parameter.label,
-                            description: parameter.description,
-                            element: 'input',
-                            defaultValue: parameter.defaultValue,
-                            inputType: parameter.context === 'password' ? 'password' : 'text' 
-                        });
+                        parameterModel.element = 'input';
+                        parameterModel.inputType = parameter.context === 'password' ? 'password' : 'text';
                     }
                 } else if(parameter.type === 'BOOLEAN') {
-                    parameters.push({
-                        name: parameter.name,
-                        type: parameter.type,
-                        label: parameter.label,
-                        description: parameter.description,
-                        element: 'switch',
-                        defaultValue: parameter.defaultValue
-                    });
+                    parameterModel.element = 'switch';
                 } else if(parameter.type === 'INTEGER' || parameter.type === 'DECIMAL') {
-                    parameters.push({
-                        name: parameter.name,
-                        type: parameter.type,
-                        label: parameter.label,
-                        description: parameter.description,
-                        element: 'input',
-                        defaultValue: parameter.defaultValue,
-                        inputType: 'number'
-                    });
+                    parameterModel.element = 'input';
+                    parameterModel.inputType = 'number';
                 } else {
-                    // no conversation
+                    parameterModel.element = 'input';
+                    parameterModel.inputType = 'text';
                 }
+                parameters.push(parameterModel);
             }
             return parameters;
         },

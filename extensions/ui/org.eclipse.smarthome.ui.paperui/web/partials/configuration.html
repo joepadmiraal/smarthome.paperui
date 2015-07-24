@@ -75,7 +75,7 @@
 			<div class="container">
 				<div class="toolbar">
 					<md-button class="md-fab md-icon-add"
-						ng-click="navigateFromRoot('setup/wizard')"></md-button>
+						ng-click="$location.path('setup/wizard')"></md-button>
 				</div>
 			</div>
 		</div>
@@ -83,7 +83,7 @@
 			<p class="text-center" ng-show="data.things.length == 0">
 				No things configured yet.
 				<button class="md-button"
-					ng-click="navigateFromRoot('setup/wizard')">Add Things</button>
+					ng-click="$location.path('setup/wizard')">Add Things</button>
 			</p>
 			<div class="things">
 				<div class="clickable"

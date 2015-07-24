@@ -11,7 +11,7 @@
         <p ng-show="homeGroups.length == 0">
             No groups defined yet.
             <button class="md-button"
-                ng-click="navigateFromRoot('configuration/groups')">Add
+                ng-click="$location.path('configuration/groups')">Add
                 Group</button>
         </p>
     </div>
@@ -22,8 +22,8 @@
     <div class="form-group">
         <md-select placeholder="Select a Bridge"
             ng-model="thing.bridgeUID" ng-readonly="true"> <md-option
-            ng-value="bridge.UID" ng-repeat="bridge in bridges">{{bridge.item
-        ? bridge.item.label + ' - ' : '' }}{{bridge.UID}}</md-option> </md-select>
+            ng-value="bridge.UID" ng-repeat="bridge in bridges">{{bridge.item.label
+        + ' - '}}{{bridge.UID}}</md-option> </md-select>
     </div>
     <hr />
 </div>

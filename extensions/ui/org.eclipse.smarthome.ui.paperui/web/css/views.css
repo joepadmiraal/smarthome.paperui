@@ -72,8 +72,8 @@ section#main.control {
 	height: 40px;
 }
 
-.items .item.LocationItem .map-container {
-	height: 200px;
+.items .item .map-container {
+	height: 200px !important;
 }
 
 .items .item hr {

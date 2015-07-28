@@ -1,4 +1,4 @@
-angular.module('SmartHomeManagerApp.services', []).config(function($httpProvider){
+angular.module('SmartHomeManagerApp.services', ['SmartHomeManagerApp.constants']).config(function($httpProvider){
     var language = localStorage.getItem('language');
     if(language) {
         $httpProvider.defaults.headers.common['Accept-Language'] = language;
@@ -11,15 +11,19 @@ angular.module('SmartHomeManagerApp.services', []).config(function($httpProvider
 			}
 		};
 	});
-}).factory('eventService', function($resource, $log) {
+}).factory('eventService', function($resource, $log, restConfig) {
 	
 	var callbacks = [];
 	var eventSrc;
 	
 	var initializeEventService = function() {
-	    eventSrc = new EventSource('/rest/events')
+
+	    eventSrc = new EventSource(restConfig.eventPath)
+	    $log.debug('Initializing event service.')
+
 	    eventSrc.addEventListener('error', function (event) {
 	        if (eventSrc.readyState === 2) { // CLOSED
+	            $log.debug('Event connection broken. Trying to reconnect in 5 seconds.');
 	            setTimeout(initializeEventService, 5000);
 	        }
     	}); 
@@ -42,7 +46,6 @@ angular.module('SmartHomeManagerApp.services', []).config(function($httpProvider
 		}
 	};
 }).factory('toastService', function($mdToast, $rootScope) {
-	var eventSrc = new EventSource('/rest/events');    
 	return new function() {
 	    var self = this;
 		this.showToast = function(id, text, actionText, actionUrl) {
@@ -55,7 +58,7 @@ angular.module('SmartHomeManagerApp.services', []).config(function($httpProvider
 	        }
 	        toast.position('bottom right');
 	        $mdToast.show(toast).then(function() {
-				$rootScope.navigateFromRoot(actionUrl);
+				$rootScope.$location.path(actionUrl);
 			});
 	    }
 	    this.showDefaultToast = function(text, actionText, actionUrl) {
@@ -70,23 +73,40 @@ angular.module('SmartHomeManagerApp.services', []).config(function($httpProvider
 	};
 }).factory('configService', function() {
     return {
-        convert: function(thing, thingType, applyDefault) {
-            if(thingType && thingType.configParameters) {
-                for (var i = 0; i < thingType.configParameters.length; i++) {
-                    var parameter = thingType.configParameters[i];
-                    if(thing.configuration[parameter.name]) {
-                        if(parameter.type === 'TEXT') {
-                            // no conversation
-                        } else if(parameter.type === 'BOOLEAN') {
-                            thing.configuration[parameter.name] = new Boolean(thing.configuration[parameter.name]);
-                        } else if(parameter.type === 'INTEGER' || parameter.type === 'DECIMAL') {
-                            thing.configuration[parameter.name] = parseInt(thing.configuration[parameter.name]);
-                        } else {
-                            // no conversation
-                        }
-                    }
-                }
+        getRenderingModel: function(configParameters) {
+            var parameters = [];
+            if(!configParameters) {
+                return parameters;
             }
+            for (var i = 0; i < configParameters.length; i++) {
+                var parameter = configParameters[i];
+                var parameterModel = {
+                    name : parameter.name,
+                    type : parameter.type,
+                    label : parameter.label,
+                    description : parameter.description,
+                    defaultValue : parameter.defaultValue
+                };
+                if(parameter.type === 'TEXT') {
+                    if(parameter.options && parameter.options.length > 0) {
+                        parameterModel.element = 'select';
+                        parameterModel.options = parameter.options;
+                    } else {
+                        parameterModel.element = 'input';
+                        parameterModel.inputType = parameter.context === 'password' ? 'password' : 'text';
+                    }
+                } else if(parameter.type === 'BOOLEAN') {
+                    parameterModel.element = 'switch';
+                } else if(parameter.type === 'INTEGER' || parameter.type === 'DECIMAL') {
+                    parameterModel.element = 'input';
+                    parameterModel.inputType = 'number';
+                } else {
+                    parameterModel.element = 'input';
+                    parameterModel.inputType = 'text';
+                }
+                parameters.push(parameterModel);
+            }
+            return parameters;
         },
         setDefaults: function(thing, thingType) {
             if(thingType && thingType.configParameters) {

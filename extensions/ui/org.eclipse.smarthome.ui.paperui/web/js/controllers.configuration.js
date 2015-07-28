@@ -107,21 +107,17 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
 		thingRepository.getAll(true);	
 	}
 	$scope.remove = function(thing, event) {
-		var confirm = $mdDialog.confirm()
-	      .title('Remove ' + (thing.item ? thing.item.label : thing.UID))
-	      .content('Would you like to remove the thing from the system?')
-	      .ariaLabel('Remove Thing')
-	      .ok('Remove')
-	      .cancel('Cancel')
-	      .targetEvent(event);
-	    $mdDialog.show(confirm).then(function() {
-	    	thingSetupService.remove({thingUID: thing.UID}, function() {
-                $scope.refresh();
-                toastService.showDefaultToast('Thing removed');
-            });
-	    });
-	    event.stopImmediatePropagation();
-	};
+        event.stopImmediatePropagation();
+	    $mdDialog.show({
+            controller : 'RemoveThingDialogController',
+            templateUrl : 'partials/dialog.removething.html',
+            targetEvent : event,
+            hasBackdrop: true,
+            locals: {thing: thing}
+        }).then(function() {
+            $scope.refresh();
+        });
+    }
 	$scope.refresh();
 }).controller('ViewThingController', function($scope, $mdDialog, toastService, thingTypeRepository, 
 		thingRepository, thingSetupService, homeGroupRepository) {
@@ -141,22 +137,17 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
 		});
 	};
 	$scope.remove = function(thing, event) {
-		var confirm = $mdDialog.confirm()
-	      .title('Remove ' + (thing.item ? thing.item.label : thing.UID))
-	      .content('Would you like to remove the thing from the system?')
-	      .ariaLabel('Remove Thing')
-	      .ok('Remove')
-	      .cancel('Cancel')
-	      .targetEvent(event);
-	    $mdDialog.show(confirm).then(function() {
-	    	thingSetupService.remove({thingUID: thing.UID}, function() {
-	    	    thingRepository.remove(thing);
-	    	    homeGroupRepository.setDirty(true);
-	    	    toastService.showDefaultToast('Thing removed');
-	            $scope.navigateTo('things');
-            });
-	    });
-	};
+	    event.stopImmediatePropagation();
+	    $mdDialog.show({
+            controller : 'RemoveThingDialogController',
+            templateUrl : 'partials/dialog.removething.html',
+            targetEvent : event,
+            hasBackdrop: true,
+            locals: {thing: thing}
+        }).then(function() {
+            $scope.navigateTo('things');
+        });
+    }
 	
 	$scope.enableChannel = function(thingUID, channelID) {
 		thingSetupService.enableChannel({channelUID: thingUID + ':' + channelID}, function() {
@@ -211,6 +202,25 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
 		$scope.thingType = thingType;
 		$scope.setHeaderText(thingType.description);
 	});
+}).controller('RemoveThingDialogController', function($scope, $mdDialog, toastService, 
+        thingSetupService, homeGroupRepository, thing) {
+    $scope.thing = thing;
+    $scope.isRemoving = thing.statusInfo.status === 'REMOVING';
+    $scope.close = function() {
+        $mdDialog.cancel();
+    }
+    $scope.remove  = function(thingUID) {    
+        var forceRemove = $scope.isRemoving ? true : false;
+        thingSetupService.remove({thingUID: thing.UID, force: forceRemove}, function() {
+            homeGroupRepository.setDirty(true);
+            if(forceRemove) {
+                toastService.showDefaultToast('Thing removed (forced).');
+            } else {
+                toastService.showDefaultToast('Thing removal initiated.');
+            }
+            $mdDialog.hide();
+        });
+    }
 }).controller('EditThingController', function($scope, $mdDialog, toastService, 
 		thingTypeRepository, thingRepository, thingSetupService, homeGroupRepository, configService) {
 	
@@ -227,7 +237,6 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
     $scope.groupNames = [];
 	
 	$scope.update = function(thing) {
-	    configService.convert(thing, $scope.thingType);
 		if(thing.item) {
 			for (var groupName in $scope.groupNames) {
 	            if($scope.groupNames[groupName]) {
@@ -270,6 +279,7 @@ angular.module('SmartHomeManagerApp.controllers.configuration',
             return thingType.UID === thingTypeUID;
         }, function(thingType) {
             $scope.thingType = thingType;
+            $scope.parameters = configService.getRenderingModel(thingType.configParameters);
             $scope.needsBridge = $scope.thingType.supportedBridgeTypeUIDs && $scope.thingType.supportedBridgeTypeUIDs.length > 0;
             if($scope.needsBridge) {
                 $scope.getBridges();

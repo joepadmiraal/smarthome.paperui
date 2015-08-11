@@ -210,6 +210,23 @@
             </div>
         </div>
     </div>
+    <div ng-switch-when="ImageItem" ng-controller="ImageItemController">
+	    <div layout-align="start center" layout="row">
+	            <div flex="60">
+	                <p class="ng-binding md-icon-camera-alt">Camera image</p>
+	            </div>
+	            <div layout="row" layout-align="end center" flex="40">
+	                <button ng-click="refreshCameraImage()" class="md-default-theme md-raised ng-binding md-button md-icon-autorenew"></button>
+	            </div>
+	     </div>       
+	     <div class="image-widget" layout-align="center center" layout="row">     
+	            <div  layout-align="end center" layout="row">
+	                <img class="image-scaled" ng-hide="item.state === 'NULL' || item.state === 'UNDEF'" ng-src="{{'data:image/jpeg;base64,'+ item.state}}" >
+	                <span class="error-message" ng-show="item.state === 'NULL' || item.state === 'UNDEF'"><center>No image is currently present</center></span>
+	            </div>
+	    </div> 
+	    </div>
+    </div>
     <div ng-switch-default ng-controller="DefaultItemController">
         <div layout="row" layout-align="start center">
             <p ng-class="getIcon(item.category)">{{getLabel(item.category,

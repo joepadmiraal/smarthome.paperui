@@ -4,7 +4,8 @@
 <br />
 <div class="fab-item" ng-repeat="binding in supportedBindings">
 	<md-button ng-show="activeScans.indexOf(binding) < 0" title="Refresh"
-		class="md-fab md-icon-settings-input-antenna" ng-click="scan(binding)"></md-button>
+		class="md-fab md-icon-settings-input-antenna" ng-click="scan(binding)"
+		aria-label="Refresh"></md-button>
 	<md-progress-circular ng-show="activeScans.indexOf(binding) >= 0"
 		md-mode="indeterminate"></md-progress-circular>
 	<div class="item-content">

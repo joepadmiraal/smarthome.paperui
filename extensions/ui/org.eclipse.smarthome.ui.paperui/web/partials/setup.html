@@ -174,13 +174,13 @@
 		class="thing-configure white-bg"
 		ng-if="page === 'wizard' && path[3] === 'add'">
 		<div class="header-toolbar">
-			<md-button class="md-icon-close" ng-click="navigateTo('wizard')"></md-button>
+			<md-button class="md-icon-close" ng-click="navigateTo('wizard')" aria-label="Close"></md-button>
 		</div>
 		<div class="section-header">
 			<div class="container">
 				<div class="toolbar">
 					<md-button title="Add" ng-click="addThing(thing)"
-						class="md-fab md-icon-check">
+						class="md-fab md-icon-check" aria-label="Add">
 				</div>
 			</div>
 		</div>

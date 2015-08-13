@@ -12,7 +12,7 @@
                 class="switch-widget">
                 <md-switch ng-disabled="isReadOnly(item)"
                     ng-model="item.state" ng-change="setOn(item.state)"
-                    ng-true-value="'ON'" ng-false-value="'OFF'"></md-switch>
+                    ng-true-value="'ON'" ng-false-value="'OFF'" aria-label={{item.label}}></md-switch>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <md-slider style="height: 40px;" flex min="0" max="100"
-            ng-model="item.state" ng-change="setBrightness(item.state)"></md-slider>
+            ng-model="item.state" ng-change="setBrightness(item.state)" aria-label={{item.label}}></md-slider>
         <div layout="row" layout-align="start center"
             class="dimmer-widget" ng-if="!isHideSwitch(item.category)">
             <div flex="40">
@@ -40,7 +40,7 @@
             <div flex="60" layout="row" layout-align="end center"
                 class="dimmer-widget">
                 <md-switch ng-model="on" ng-change="setOn(on)"
-                    ng-true-value="'ON'" ng-false-value="'OFF'"></md-switch>
+                    ng-true-value="'ON'" ng-false-value="'OFF'" aria-label={{item.label}}></md-switch>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
                 class="dimmer-widget">
 
                 <md-slider class="hue" flex min="0" max="360"
-                    ng-model="hue" ng-change="setHue(hue)"></md-slider>
+                    ng-model="hue" ng-change="setHue(hue)" aria-label="{{item.label}} hue"></md-slider>
             </div>
         </div>
         <div layout="row" layout-align="start center"
@@ -66,7 +66,7 @@
             <div flex="60" layout="row" layout-align="end center"
                 class="dimmer-widget">
                 <md-slider flex min="0" max="100" ng-model="brightness"
-                    ng-change="setBrightness(brightness)"></md-slider>
+                    ng-change="setBrightness(brightness)" aria-label="{{item.label}} brightness"></md-slider>
             </div>
         </div>
         <div layout="row" layout-align="start center"
@@ -77,7 +77,7 @@
             <div flex="60" layout="row" layout-align="end center"
                 class="dimmer-widget">
                 <md-switch ng-model="on" ng-change="setOn(on)"
-                    ng-true-value="'ON'" ng-false-value="'OFF'"></md-switch>
+                    ng-true-value="'ON'" ng-false-value="'OFF'" aria-label="{{item.label}} on/off"></md-switch>
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
                     <h1 class="state edit" ng-if="!editMode"
                         ng-click="editState()">{{getStateText(item)}}</h1>
                     <md-input-container ng-show="editMode">
-                    <input ng-model="item.state"></input> </md-input-container>
+                    <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                     <button class="md-button md-icon-check"
                         ng-show="editMode" ng-click="updateState()"></button>
                 </div>
@@ -113,7 +113,8 @@
                 step="{{item.stateDescription.step}}"
                 ng-model="item.state" md-discrete="true"
                 ng-if="getMinText(item) && getMaxText(item)"
-                ng-change="sendCommand(item.state)"></md-slider>
+                ng-change="sendCommand(item.state)"
+                aria-label={{item.label}}></md-slider>
             <span flex="15" class="text-right" ng-if="getMaxText(item)">{{getMaxText(item)}}</span>
         </div>
     </div>
@@ -128,8 +129,8 @@
             <div flex="60" layout="row" layout-align="end center">
                 <h1 class="state editable text-center" ng-if="!editMode"
                     ng-click="editState()">{{item.state}} %</h1>
-                <md-input-container ng-show="editMode" flex>
-                <input ng-model="item.state"></input> </md-input-container>
+                <md-input-container ng-show="editMode" flex aria-label={{item.label}}>
+                <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                 <button class="md-button md-icon-check"
                     ng-show="editMode" ng-click="updateState()"></button>
             </div>
@@ -204,7 +205,7 @@
                 <h2 class="state edit" ng-if="!editMode"
                     ng-click="editState()">{{formattedState}}</h2>
                 <md-input-container ng-show="editMode">
-                <input ng-model="item.state"></input> </md-input-container>
+                <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                 <button class="md-button md-icon-check"
                     ng-show="editMode" ng-click="updateState()"></button>
             </div>
@@ -225,7 +226,7 @@
                 <h1 class="state editable text-center" ng-if="!editMode"
                     ng-click="editState()" flex>{{getStateText(item)}}</h1>
                 <md-input-container ng-show="editMode" flex>
-                <input ng-model="item.state"></input> </md-input-container>
+                <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                 <button class="md-button md-icon-check"
                     ng-show="editMode" ng-click="updateState()"></button>
             </div>

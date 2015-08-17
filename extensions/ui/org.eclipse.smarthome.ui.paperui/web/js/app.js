@@ -42,8 +42,10 @@ angular.module('SmartHomeManagerApp', [
 	var original = $location.path;
 	$rootScope.version = paperUIVersion;
 	$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title;
-        $rootScope.simpleHeader = current.$$route.simpleHeader;
+	 	if (current.hasOwnProperty('$$route')) {
+        	$rootScope.title = current.$$route.title;
+        	$rootScope.simpleHeader = current.$$route.simpleHeader;
+        }
         $rootScope.path = $location.path().split('/');
         $rootScope.section = $rootScope.path[1];
         $rootScope.page = $rootScope.path[2];

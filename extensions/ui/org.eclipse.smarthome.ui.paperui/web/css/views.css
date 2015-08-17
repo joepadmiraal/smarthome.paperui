@@ -56,6 +56,17 @@ section#main.control {
 	color: #01324D;
 }
 
+.image-widget{
+/* This is a a utility class for image items so the !important is for the exceptional rule*/
+	height:auto !important;
+	margin-top: 5px;
+}
+
+.image-scaled {
+	width:100%;
+	position:relative;
+}
+
 .number-control-widget {
 	/* background: #EEE;	
 	box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.26); */

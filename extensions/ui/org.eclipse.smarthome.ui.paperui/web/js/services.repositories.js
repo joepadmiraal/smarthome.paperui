@@ -77,9 +77,7 @@ var Repository = function($q, $rootScope, remoteService, dataType, staticData) {
 		for (var i = 0; i < $rootScope.data[dataType].length; i++) {
 			var element = $rootScope.data[dataType][i];
 			if(condition(element)) {
-				if(condition(element)) {
-					return element;
-				}
+				return element;
 			}
 		}
 		return null;
@@ -121,26 +119,47 @@ angular.module('SmartHomeManagerApp.services.repositories', []).factory('binding
 		function($q, $rootScope, thingSetupService, eventService) {
 	var repository = new Repository($q, $rootScope, thingSetupService, 'things')
 	$rootScope.data.things = [];
-	eventService.onEvent('smarthome/things/*/status', function(topic, statusInfo) {
-		var thingUID = topic.split('/')[2];
-		var thing = repository.find(function(thing) {
+
+	var itemNameToThingUID = function(itemName) {
+		return itemName.replace(/_/g, ':')
+	}
+	var updateInRepository = function(thingUID, mustExist, action) {
+		var existing = repository.find(function(thing) {
             return thing.UID === thingUID;
         });
-		if(thing) {
-			$rootScope.$apply( function (scope) {
-				thing.statusInfo = statusInfo;
+		if ((existing && mustExist) || (!existing && !mustExist)) {
+			$rootScope.$apply(function(scope) {
+				action(existing)				
 			});
 		}
+	}
+
+	eventService.onEvent('smarthome/things/*/status', function(topic, statusInfo) {
+		updateInRepository(topic.split('/')[2], true, function(existingThing) {
+			existingThing.statusInfo = statusInfo;
+		});
+	});
+	eventService.onEvent('smarthome/things/*/added', function(topic, thing) {
+		updateInRepository(topic.split('/')[2], false, function(existingThing) {
+			repository.add(thing);
+		});
 	});
 	eventService.onEvent('smarthome/things/*/removed', function(topic, thing) {
-	    var thingUID = thing.UID;
-        var thing = repository.find(function(thing) {
-            return thing.UID === thingUID;
-        });
-        $rootScope.$apply( function (scope) {
-            repository.remove(thing);
-        });
+		updateInRepository(topic.split('/')[2], true, function(existingThing) {
+			repository.remove(existingThing);
+		});
     });
+	eventService.onEvent('smarthome/items/*/added', function(topic, item) {
+		updateInRepository(itemNameToThingUID(topic.split('/')[2]), true, function(existingThing) {
+			existingThing.item = item
+		});
+	});
+	eventService.onEvent('smarthome/items/*/updated', function(topic, itemUpdate) {
+		updateInRepository(itemNameToThingUID(topic.split('/')[2]), true, function(existingThing) {
+			existingThing.item = itemUpdate[0]
+		});
+	});
+	
 	return repository;
 }).factory('homeGroupRepository', 
 		function($q, $rootScope, groupSetupService) {

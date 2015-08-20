@@ -47,7 +47,7 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
             }
             
             $scope.masonry();
-        });   
+        }, true);   
     }
     
     $scope.getItem = function(itemName) {

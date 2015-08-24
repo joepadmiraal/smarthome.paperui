@@ -32,6 +32,9 @@ section#main.control {
 
 .items .item h1.state {
 	margin: 5px 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .items .item h1.state:last-child {

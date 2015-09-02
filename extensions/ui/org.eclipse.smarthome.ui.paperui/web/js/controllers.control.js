@@ -47,7 +47,7 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
             }
             
             $scope.masonry();
-        });   
+        }, true);   
     }
     
     $scope.getItem = function(itemName) {
@@ -223,7 +223,15 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
         $scope.editMode = false;
     };
 }).controller('DefaultItemController', function($scope, itemService) {
-
+	
+}).controller('ImageItemController', function($scope, itemService) {
+	
+	$scope.refreshCameraImage = function() {
+        itemService.sendCommand({
+            itemName : $scope.item.name
+        }, "REFRESH");
+    };
+    
 }).controller('SwitchItemController', function($scope, $timeout, itemService) {
     $scope.setOn = function(state) {
         $scope.sendCommand(state);

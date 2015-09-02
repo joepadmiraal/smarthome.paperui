@@ -12,5 +12,4 @@ Import-Package: org.osgi.service.component,
 Bundle-SymbolicName: org.eclipse.smarthome.ui.paperui;singleton:=true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Service-Component: OSGI-INF/*
-Require-Bundle: javax.servlet
 Bundle-ClassPath: patch/,.

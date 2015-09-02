@@ -2,13 +2,13 @@
 	<div class="bindings tab-panel content" ng-if="page === 'bindings'"
 		ng-controller="BindingController">
 		<div class="header-toolbar">
-			<md-button class="md-icon-refresh" ng-click="refresh()"></md-button>
+			<md-button class="md-icon-refresh" ng-click="refresh()" aria-label="Refresh"></md-button>
 		</div>
 		<div class="section-header">
 			<div class="container">
 				<div class="toolbar">
 					<md-button class="md-fab md-icon-download"
-						ng-click="installBinding()"></md-button>
+						ng-click="installBinding()" aria-label="Download"></md-button>
 				</div>
 			</div>
 		</div>
@@ -35,12 +35,12 @@
 	<div class="groups white-bg" ng-if="page === 'groups'"
 		ng-controller="GroupController">
 		<div class="header-toolbar">
-			<md-button class="md-icon-refresh" ng-click="refresh()"></md-button>
+			<md-button class="md-icon-refresh" ng-click="refresh()" aria-label="Refresh"></md-button>
 		</div>
 		<div class="section-header">
 			<div class="container">
 				<div class="toolbar">
-					<md-button class="md-fab md-icon-add" ng-click="add($event)"></md-button>
+					<md-button class="md-fab md-icon-add" ng-click="add($event)" aria-label="Add"></md-button>
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,8 @@
 							<h3>{{homeGroup.label}}</h3>
 							<div class="actions">
 								<md-button class="md-raised md-icon-delete"
-									ng-click="remove(homeGroup, $event)"></md-button>
+									ng-click="remove(homeGroup, $event)"
+									 aria-label="Remove"></md-button>
 							</div>
 						</div>
 						<hr class="border-line" ng-show="!$last" />
@@ -69,13 +70,14 @@
 	<div class="things white-bg" ng-if="page === 'things' && !path[3]"
 		ng-controller="ThingController">
 		<div class="header-toolbar">
-			<md-button class="md-icon-refresh" ng-click="refresh()"></md-button>
+			<md-button class="md-icon-refresh" ng-click="refresh()" aria-label="Refresh"></md-button>
 		</div>
 		<div class="section-header">
 			<div class="container">
 				<div class="toolbar">
 					<md-button class="md-fab md-icon-add"
-						ng-click="$location.path('setup/wizard')"></md-button>
+						ng-click="$location.path('setup/wizard')"
+						 aria-label="Add"></md-button>
 				</div>
 			</div>
 		</div>
@@ -101,9 +103,11 @@
 							<p>{{thing.UID}}</p>
 							<div class="actions">
 								<md-button class="md-raised md-icon-edit"
-									ng-click="navigateTo('things/edit/' + thing.UID)"></md-button>
+									ng-click="navigateTo('things/edit/' + thing.UID)"
+									aria-label="Edit"></md-button>
 								<md-button class="md-raised md-icon-delete"
-									ng-click="remove(thing, $event)"></md-button>
+									ng-click="remove(thing, $event)"
+									aria-label="Delete"></md-button>
 							</div>
 						</div>
 						<hr class="border-line" ng-show="!$last" />
@@ -116,14 +120,15 @@
 		ng-if="page === 'things' && path[3] === 'view'"
 		ng-controller="ViewThingController">
 		<div class="header-toolbar">
-			<md-button class="md-icon-delete" ng-click="remove(thing, $event)"></md-button>
-			<md-button class="md-icon-close" ng-click="navigateTo('things')"></md-button>
+			<md-button class="md-icon-delete" ng-click="remove(thing, $event)" aria-label="Delete"></md-button>
+			<md-button class="md-icon-close" ng-click="navigateTo('things')" aria-label="Close"></md-button>
 		</div>
 		<div class="section-header">
 			<div class="container">
 				<div class="toolbar">
 					<md-button class="md-fab md-icon-edit"
-						ng-click="navigateTo('things/edit/' + thing.UID)"></md-button>
+						ng-click="navigateTo('things/edit/' + thing.UID)"
+						aria-label="Edit"></md-button>
 				</div>
 			</div>
 		</div>
@@ -143,10 +148,12 @@
 					ng-repeat="channel in getChannels(false)">
 					<md-button ng-if="channel.linkedItems.length == 0"
 						class="md-fab md-icon-radio-button-off"
-						ng-click="enableChannel(thing.UID, channel.id)"></md-button>
+						ng-click="enableChannel(thing.UID, channel.id)"
+						aria-label="Off"></md-button>
 					<md-button ng-if="channel.linkedItems.length > 0"
 						class="md-fab md-icon-radio-button-on"
-						ng-click="disableChannel(thing.UID, channel.id)"></md-button>
+						ng-click="disableChannel(thing.UID, channel.id)"
+						aria-label="On"></md-button>
 					<div class="item-content">
 						<h3>{{getChannelById(channel.id).label}}</h3>
 						<p>{{thing.UID + ':' + channel.id}}</p>
@@ -164,10 +171,12 @@
 					ng-repeat="channel in getChannels(true)">
 					<md-button ng-if="channel.linkedItems.length == 0"
 						class="md-fab md-icon-radio-button-off"
-						ng-click="enableChannel(thing.UID, channel.id)"></md-button>
+						ng-click="enableChannel(thing.UID, channel.id)"
+						aria-label="Off"></md-button>
 					<md-button ng-if="channel.linkedItems.length > 0"
 						class="md-fab md-icon-radio-button-on"
-						ng-click="disableChannel(thing.UID, channel.id)"></md-button>
+						ng-click="disableChannel(thing.UID, channel.id)"
+						aria-label="On"></md-button>
 					<div class="item-content">
 						<h3>{{getChannelById(channel.id).label}}</h3>
 						<p>{{thing.UID + ':' + channel.id}}</p>
@@ -183,13 +192,15 @@
 		ng-controller="EditThingController">
 		<div class="header-toolbar">
 			<md-button class="md-icon-close"
-				ng-click="navigateTo('things/view/' + thing.UID)"></md-button>
+				ng-click="navigateTo('things/view/' + thing.UID)"
+				aria-label="Close"></md-button>
 		</div>
 		<div class="section-header">
 			<div class="container">
 				<div class="toolbar">
 					<md-button title="Save" ng-click="update(thing)"
-						class="md-fab md-icon-check"></md-button>
+						class="md-fab md-icon-check"
+						aria-label="Save"></md-button>
 				</div>
 			</div>
 		</div>

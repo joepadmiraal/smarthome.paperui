@@ -32,6 +32,9 @@ section#main.control {
 
 .items .item h1.state {
 	margin: 5px 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .items .item h1.state:last-child {
@@ -54,6 +57,17 @@ section#main.control {
 
 .dimmer-widget .md-button.active {
 	color: #01324D;
+}
+
+.image-widget{
+/* This is a a utility class for image items so the !important is for the exceptional rule*/
+	height:auto !important;
+	margin-top: 5px;
+}
+
+.image-scaled {
+	width:100%;
+	position:relative;
 }
 
 .number-control-widget {

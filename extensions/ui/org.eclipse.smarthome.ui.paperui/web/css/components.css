@@ -8,6 +8,11 @@
 	font-size: 24px;	
 }
 
+.md-button[class*="md-icon-"] {
+	margin: 0px;
+    min-width: 0px;
+}
+
 .md-button[class*="md-icon-"]:before, .md-button[class*="md-icon-"] * {
 	vertical-align: middle;
 }
@@ -82,18 +87,18 @@ md-tabs md-tab {
 	background-color: #01324D;
 }
 
-md-tabs.md-default-theme md-tabs-ink-bar {
+md-tabs.md-default-theme md-ink-bar {
 	color: #ffff85;
 	background: white;
 }
 
-md-tabs.md-default-theme md-tab {
-	color: #AAA;
-	outline: 0;
+md-tabs .md-tab.md-active {
+    color: white;
 }
 
-md-tabs.md-default-theme md-tab.active {
-	color: white;
+md-tabs .md-tab {
+    color: #DDD;
+    outline: 0;
 }
 
 md-tabs.md-default-theme md-tab[disabled] {
@@ -227,7 +232,7 @@ md-slider.md-default-theme.hue .md-thumb:after {
 }
 
 .card .clabel {
-	padding: 10px;
+	padding: 8px;
 	text-align: center;
 }
 

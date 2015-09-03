@@ -27,7 +27,7 @@
             </div>
             <div flex="60" layout="row" layout-align="end center"
                 class="dimmer-widget">
-                <h1>{{item.state}}%</h1>
+                <h2>{{item.state}}%</h2>
             </div>
         </div>
         <md-slider style="height: 40px;" flex min="0" max="100"
@@ -92,12 +92,12 @@
             <div flex="60">
                 <div ng-show="isReadOnly(item)" layout="row"
                     layout-align="end center">
-                    <h1 class="state" ng-if="isReadOnly(item)">{{getStateText(item)}}</h1>
+                    <h2 class="state" ng-if="isReadOnly(item)">{{getStateText(item)}}</h2>
                 </div>
                 <div ng-show="!isReadOnly(item)" layout="row"
                     layout-align="end center">
-                    <h1 class="state edit" ng-if="!editMode"
-                        ng-click="editState()">{{getStateText(item)}}</h1>
+                    <h2 class="state edit" ng-if="!editMode"
+                        ng-click="editState()">{{getStateText(item)}}</h2>
                     <md-input-container ng-show="editMode">
                     <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                     <button class="md-button md-icon-check"
@@ -127,8 +127,8 @@
                     item.label, 'Position')}}</p>
             </div>
             <div flex="60" layout="row" layout-align="end center">
-                <h1 class="state editable text-center" ng-if="!editMode"
-                    ng-click="editState()">{{item.state}} %</h1>
+                <h2 class="state editable text-center" ng-if="!editMode"
+                    ng-click="editState()">{{item.state}} %</h2>
                 <md-input-container ng-show="editMode" flex aria-label={{item.label}}>
                 <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                 <button class="md-button md-icon-check"
@@ -179,7 +179,7 @@
                     item.label, 'Contact')}}</p>
             </div>
             <div flex="60" layout="row" layout-align="end center">
-                <h1 class="state">{{getStateText(item)}}</h1>
+                <h2 class="state">{{getStateText(item)}}</h2>
             </div>
         </div>
     </div>
@@ -235,12 +235,12 @@
         <div layout="row" layout-align="start center">
             <div ng-show="isReadOnly(item)" layout="row"
                 layout-align="start center" flex>
-                <h1 class="state" ng-if="isReadOnly(item)">{{getStateText(item)}}</h1>
+                <h2 class="state" ng-if="isReadOnly(item)">{{getStateText(item)}}</h2>
             </div>
             <div ng-show="!isReadOnly(item)" layout="row"
                 layout-align="end center" flex="100">
-                <h1 class="state editable text-center" ng-if="!editMode"
-                    ng-click="editState()" flex>{{getStateText(item)}}</h1>
+                <h2 class="state editable text-center" ng-if="!editMode"
+                    ng-click="editState()" flex>{{getStateText(item)}}</h2>
                 <md-input-container ng-show="editMode" flex>
                 <input ng-model="item.state" aria-label={{item.label}}></input> </md-input-container>
                 <button class="md-button md-icon-check"

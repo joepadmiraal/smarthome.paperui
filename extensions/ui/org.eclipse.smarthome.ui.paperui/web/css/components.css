@@ -79,6 +79,10 @@ md-tabs {
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
+md-tabs-canvas {
+    background-color: #ff6600;
+}
+
 md-tabs section {
 	padding: 0px;
 }

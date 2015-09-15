@@ -357,7 +357,6 @@ md-tab-content {
 md-tabs.section-tabs {
 	left: 0;
 	right: 0;
-	top: 0;
 	height: 100%;
 	z-index: 2;
 }
@@ -369,7 +368,6 @@ md-tabs.section-tabs {
 	}
 	md-tabs.section-tabs {
 		padding-left: 00px;
-		top: 64px;
 	}
 }
 

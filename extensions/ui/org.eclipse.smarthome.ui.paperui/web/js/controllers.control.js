@@ -63,7 +63,7 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
     $scope.masonry = function() {
         if ($scope.data.items) {
             $timeout(function() {
-                new Masonry('.items', {});
+            	new Masonry('.items', {});	
             }, 0, false);
         }
 	}
@@ -407,10 +407,10 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
 			if(stateDescription.readOnly) {
 				return false;
 			} else {
-				if(stateDescription.minimum && stateDescription.maximum) {
-					return true;
-				} else {
+				if(isNaN(stateDescription.minimum) || isNaN(stateDescription.maximum)) {
 					return false;
+				} else {
+					return true;
 				}
 			}
 		}

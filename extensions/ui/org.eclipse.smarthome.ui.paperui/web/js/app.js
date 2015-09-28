@@ -38,6 +38,17 @@ angular.module('SmartHomeManagerApp', [
             $scope.sendCommand($($element).html());
         });
     };
+}).directive('onFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
+    }
 }).run(['$location', '$rootScope', function($location, $rootScope) {
 	var original = $location.path;
 	$rootScope.version = paperUIVersion;

@@ -1,4 +1,4 @@
-<md-dialog aria-label="Binding Info"> <md-content>
+<md-dialog aria-label="Binding Info approve"> <md-dialog-content>
 <h1>{{thingType.label}}</h1>
 <p>
 	You are about to add a new thing <strong>{{discoveryResult.label}}</strong>
@@ -13,6 +13,7 @@
 		ng-model="groupNames[homeGroup.name]" class="inline">{{homeGroup.label}}</md-checkbox>
 	<p ng-show="homeGroups.length == 0">No groups defined yet.</p>
 </div>
+</md-dialog-content>
 
 <div class="md-actions" layout="row">
 	<md-button ng-click="close()">Cancel</md-button>

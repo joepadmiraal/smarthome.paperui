@@ -1,4 +1,4 @@
-<md-dialog aria-label="Binding Info" class="scan" style="max-width: 450px"> <md-content>
+<md-dialog aria-label="Binding Info" class="scan" style="max-width: 450px"> <md-dialog-content>
 <h1>{{binding.name}} <small>{{binding.id}}</small></h1>
 <p><strong>{{binding.author}}</strong></p>
 <p>{{binding.description}}</p>
@@ -14,7 +14,7 @@
 	</p>
 	<hr class="border-line" ng-show="!$last" />
 </div>
-</md-content>
+</md-dialog-content>
 <div class="md-actions" layout="row">
 	<md-button ng-click="close()">OK</md-button>
 </div>

@@ -1,36 +1,21 @@
 angular.module('SmartHomeManagerApp.controllers.control', []).controller('ControlPageController', function($scope, $routeParams, $location, $timeout, itemRepository) {
     $scope.items = [];
-    $scope.selectedTabIndex = 0;
+    $scope.selectedIndex = 0;
     $scope.tabs = [];
-    
-    var renderedItems = 0;
-    
-    $scope.itemRendered = function() {
-        renderedItems++;
-        if ($scope.data.items) {
-            var currentHomeGroup = $scope.getItem($scope.tabs[$scope.selectedTabIndex].name);
-            if(currentHomeGroup && currentHomeGroup.members && currentHomeGroup.members.length) {
-                var numberOfItemsToRender = currentHomeGroup.members.length;
-                if(numberOfItemsToRender == renderedItems) {
-                    $scope.masonry();
-                }
-            }
-        }
-    }
 
     $scope.next = function() {
-    	var newIndex = $scope.selectedTabIndex + 1;
+    	var newIndex = $scope.selectedIndex + 1;
     	if(newIndex > ($scope.tabs.length - 1)) {
     		newIndex = 0;
     	}
-    	$scope.selectedTabIndex = newIndex;
+    	$scope.selectedIndex = newIndex;
 	}
     $scope.prev = function() {
-    	var newIndex = $scope.selectedTabIndex - 1;
+    	var newIndex = $scope.selectedIndex - 1;
     	if(newIndex < 0) {
     		newIndex = $scope.tabs.length - 1;
     	}
-    	$scope.selectedTabIndex = newIndex;
+    	$scope.selectedIndex = newIndex;
 	}
 
     $scope.refresh = function() {
@@ -45,8 +30,6 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
                     }
                 }
             }
-            
-            $scope.masonry();
         }, true);   
     }
     
@@ -63,16 +46,14 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
     $scope.masonry = function() {
         if ($scope.data.items) {
             $timeout(function() {
-                new Masonry('.items', {});
-            }, 0, false);
+            	var itemContainer = '#items-' + $scope.selectedIndex;
+            	new Masonry(itemContainer, {});
+            }, 100, true);
         }
 	}
-    $scope.$watch('data.items', function(value) {
+    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     	$scope.masonry();
     });
-    $scope.$watch('selectedTabIndex', function() {
-    	$scope.masonry();
-	});
     $scope.refresh();
 }).controller('ControlController', function($scope, $timeout, itemService) {
 	$scope.getItemName = function(itemName) {
@@ -204,7 +185,6 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
     	return item.stateDescription ? item.stateDescription.readOnly : false;
     }
 }).controller('ItemController', function($rootScope, $scope, itemService) {
-    $scope.itemRendered();
     $scope.editMode = false;
     $scope.sendCommand = function(command, updateState) {
     	$rootScope.itemUpdates[$scope.item.name] = new Date().getTime();
@@ -407,10 +387,10 @@ angular.module('SmartHomeManagerApp.controllers.control', []).controller('Contro
 			if(stateDescription.readOnly) {
 				return false;
 			} else {
-				if(stateDescription.minimum && stateDescription.maximum) {
-					return true;
-				} else {
+				if(isNaN(stateDescription.minimum) || isNaN(stateDescription.maximum)) {
 					return false;
+				} else {
+					return true;
 				}
 			}
 		}

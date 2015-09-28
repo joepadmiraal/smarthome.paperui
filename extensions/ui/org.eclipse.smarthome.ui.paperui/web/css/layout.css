@@ -218,6 +218,7 @@ nav.menu ul li a ul li a:hover, nav.menu ul li.active ul li a:hover, nav.menu ul
 	margin-left: 240px;
 	padding-top: 80px;
 	background-color: #F9F9F9;
+	height: 100%;
 }
 
 @media only screen and (max-width: 1120px) {
@@ -321,8 +322,9 @@ header a.open-menu {
 /* Section / Toolbar */
 
 section#main {
-	padding: 0px 0px 20px;
+	padding: 0px;
 	margin-top: 40px;
+	height: 100%;
 }
 
 .header-toolbar {
@@ -348,12 +350,14 @@ section#main {
 	top: 80px;
 }
 
+md-tab-content {
+	padding: 24px;
+}
+
 md-tabs.section-tabs {
-	position: fixed;
 	left: 0;
 	right: 0;
-	padding-left: 240px;
-	top: 80px;
+	height: 100%;
 	z-index: 2;
 }
 
@@ -364,7 +368,6 @@ md-tabs.section-tabs {
 	}
 	md-tabs.section-tabs {
 		padding-left: 00px;
-		top: 64px;
 	}
 }
 

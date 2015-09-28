@@ -284,6 +284,8 @@ md-slider.md-default-theme.hue .md-thumb:after {
 }
 
 .fab-item h3, .list-item h3 {
+	font-size: 18px;
+	font-weight: 500;
 	margin: 15px 0px 5px;	
 }
 
